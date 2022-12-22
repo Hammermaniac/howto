@@ -1,0 +1,13 @@
+#!/bin/bash
+
+n=$#
+for n do
+  grep -i "$1" ~/.common-configs/howtos | while read -r line
+    do
+  	  echo  ""
+  	  line=$(echo -e "$line" | sed 's/: /:\n/')
+	  echo -e "$line\n"
+	  #shift
+    done
+  shift
+done

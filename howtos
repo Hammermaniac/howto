@@ -1,0 +1,18 @@
+CYANB  :   \033[1;36m
+PURPLE :   \033[35m
+YELLOW :   \033[33m
+BLUE   :   \033[34m
+GREENB :   \033[1;32m
+GREEN  :   \033[32m
+RED    :   \033[1;31m
+WHITE  :   \033[0m
+
+Create merge request with git push command: \033[1;36mgit\033[0m push \033[33m-u\033[0m origin \033[35m<current-branch-to-merge>\033[0m \033[33m-o\033[0m merge_request.create \033[33m-o\033[0m merge_request.target=\033[35m<upstream-target>\033[0m
+Reset git repository to upstream state: \033[1;36mgit\033[0m reset \033[35m--hard\033[0m @\033[33m{\033[0mu\033[33m}\033[0m
+Git use global gitignore: \033[1;36mgit\033[0m config \033[33mcore.excludesfile\033[0m ~/.gitignore
+Git get URL of upstream repository: \033[1;36mgit\033[0m config \033[35m--get\033[0m \033[33mremote.origin.url\033[0m
+Fix expired APT-key: \033[1;36msudo apt-key\033[0m adv \033[35m--recv-keys --keyserver\033[0m \033[33mkeyserver.ubuntu.com\033[0m \033[35m<key-id>\033[0m
+Show connections: \033[1;36mnmcli\033[0m connection
+Bring interfaces and VPN up/down: \033[1;36mnmcli\033[0m connection \033[1;32mup\033[0m \033[35m<NAME>\033[0m
+Push output to clipboard: \033[1;36mcat\033[0m ~/emdash | \033[1;36mxclip\033[0m \033[33m-selection clipboard\033[0m
+Mount CIFS with user permissions: \033[1;36msudo\033[0m mount \033[33m-t\033[0m cifs \033[33m-o\033[0m \033[35muid=1000,gid=1000\033[0m \033[35m//\033[33m192.168.1.18\033[35m/guides_tools\033[0m \033[34m/NAS01_GuidesTools/\033[0m
