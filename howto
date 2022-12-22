@@ -7,7 +7,6 @@ for n do
   	  echo  ""
   	  line=$(echo -e "$line" | sed 's/: /:\n/')
 	  echo -e "$line\n"
-	  #shift
     done
   shift
 done
