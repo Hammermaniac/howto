@@ -1,0 +1,9 @@
+Create merge request with git push command: git push -u origin <current-branch-to-merge> -o merge_request.create -o merge_request.target=<upstream-target>
+Reset git repository to upstream state: git reset --hard @{u}
+Git use global gitignore: git config core.excludesfile ~/.gitignore
+Git get URL of upstream repository: git config --get remote.origin.url
+Fix expired APT-key: sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com <key-id>
+Show connections: nmcli connection
+Bring interfaces and VPN up/down: nmcli connection up <NAME>
+Push output to clipboard: cat ~/emdash | xclip -selection clipboard
+Mount CIFS with user permissions: sudo mount -t cifs -o uid=1000,gid=1000 //192.168.1.18/guides_tools /NAS01_GuidesTools/
