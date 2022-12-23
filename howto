@@ -32,11 +32,11 @@ for n do {
   fi
   # Find supplied argument (keyword) in book and display.
   grep -i "$1" "$book" | while read -r line
-    do
+  do
 	echo '——————————————————————————————————'
-  	line=$(echo -e "$line" | sed 's/: /:\n——————————————————————————————————\n/')
+	line=$(echo -e "$line" | sed 's/: /:\n——————————————————————————————————\n/')
 	echo -e "$line\n"
-    done
+  done
   shift
 } done
 
