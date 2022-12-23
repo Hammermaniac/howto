@@ -15,7 +15,7 @@ Fix expired APT-key: \033[1;36msudo apt-key\033[0m adv \033[35m--recv-keys --key
 Show connections: \033[1;36mnmcli\033[0m connection
 Bring interfaces and VPN up/down: \033[1;36mnmcli\033[0m connection \033[1;32mup\033[0m \033[35m<NAME>\033[0m
 Push output to clipboard: \033[1;36mcat\033[0m ~/emdash | \033[1;36mxclip\033[0m \033[33m-selection clipboard\033[0m
-Mount CIFS with user permissions: \033[1;36msudo\033[0m mount \033[33m-t\033[0m cifs \033[33m-o\033[0m \033[35muid=1000,gid=1000\033[0m \033[35m//\033[33m192.168.1.18\033[35m/guides_tools\033[0m \033[34m/NAS01_GuidesTools/\033[0m
+Mount CIFS with user permissions: \033[1;36msudo\033[0m mount \033[33m-t\033[0m cifs \033[33m-o\033[0m \033[35muid=1000,gid=1000\033[0m \033[35m//\033[33m192.168.1.18\033[35m/fileshare\033[0m /mnt/fileshare
 Bash script For loop: \033[33mfor\033[0m n \033[33mdo\n  shift\ndone\033[0m
 Bash script read from file While loop: \033[33mwhile \033[36mIFS\033[0m= \033[33mread -r line\n  do\n	  echo \033[35m-e\033[0m "\033[36m$line\033[0m" \033[33m>>\033[0m ~/personal/howto/howtos.bak\n  \033[33mdone\033[0m < ~/personal/howto/howtos
 Perl replace text in file: \033[1;36mperl\033[0m \033[33m-i -p -e\033[0m '\033[35ms{Exec=/usr/bin/google-chrome-stable$}{Exec=/bin/bash -c "chrome"}\033[0m' /usr/share/google-chrome.desktop
