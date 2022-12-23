@@ -24,3 +24,7 @@ Puppet variable: \033[1;36m$file_source\033[0m = '\033[35mpuppet:///modules/node
 Puppet file source: \033[33mfile\033[0m { '\033[35m/etc/file\033[0m':\n  \033[1;36msource\033[0m => \033[1;36m$file_source\033[0m,\n  \033[1;36mowner\033[0m  => \033[1;36mroot\033[0m,\n  \033[32mgroup\033[0m  => \033[1;36mroot\033[0m,\n  \033[1;36mmode\033[0m   => '\033[35m0644\033[0m'\n}
 Puppet exec: \033[32mexec\033[0m { '\033[35m/bin/file\033[0m':\n  \033[1;36mcommand\033[0m => '\033[35m/bin/file\033[0m',\n  \033[1;36monlyif\033[0m  => '\033[35m/usr/bin/test -f /bin/file\033[0m',\n}
 Edit executable in $PATH: \033[1;36mvim\033[0m \033[35m$(\033[1;36mwhich\033[0m howto\033[35m)\033[0m
+VirtualBox list VMs: \033[1;36mvboxmanage\033[0m list vms
+VirtualBox power on headless VM: \033[1;36mvboxmanage\033[0m startvm \033[33m"puppet-master"\033[0m --type headless
+VirtualBox power off headless VM: \033[1;36mvboxmanage\033[0m controlvm \033[33m"puppet-master"\033[0m poweroff --type headless
+Kill SSH session: Type \033[1;36m(\033[0m\033[33mw\033[1;36m)\033[0m or \033[1;36m(\033[0m\033[33mwho\033[1;36m)\033[0m to see ssh connections.\n  \033[1;36mpkill\033[0m -9 -t \033[33mpts/3\033[0m
