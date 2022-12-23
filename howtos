@@ -18,9 +18,9 @@ Push output to clipboard: \033[1;36mcat\033[0m ~/emdash | \033[1;36mxclip\033[0m
 Mount CIFS with user permissions: \033[1;36msudo\033[0m mount \033[33m-t\033[0m cifs \033[33m-o\033[0m \033[35muid=1000,gid=1000\033[0m \033[35m//\033[33m192.168.1.18\033[35m/guides_tools\033[0m \033[34m/NAS01_GuidesTools/\033[0m
 Bash script For loop: \033[33mfor\033[0m n \033[33mdo\n  shift\ndone\033[0m
 Bash script read from file While loop: \033[33mwhile \033[36mIFS\033[0m= \033[33mread -r line\n  do\n	  echo \033[35m-e\033[0m "\033[36m$line\033[0m" \033[33m>>\033[0m ~/personal/howto/howtos.bak\n  \033[33mdone\033[0m < ~/personal/howto/howtos
-Bash perl replace text in file: \033[1;36mperl\033[0m \033[33m-i -p -e\033[0m '\033[35ms{Exec=/usr/bin/google-chrome-stable$}{{Exec=/bin/bash -c "chrome"}\033[0m' /usr/share/google-chrome.desktop
+Perl replace text in file: \033[1;36mperl\033[0m \033[33m-i -p -e\033[0m '\033[35ms{Exec=/usr/bin/google-chrome-stable$}{Exec=/bin/bash -c "chrome"}\033[0m' /usr/share/google-chrome.desktop
 Puppet class: \033[33mclass\033[0m \033[1;36mnode_management::chrome\033[0m {\n\n}
 Puppet variable: \033[1;36m$file_source\033[0m = '\033[35mpuppet:///modules/node_management/etc/file\033[0m'
-Puppet source file: \033[33mfile\033[0m { '\033[35m/etc/file\033[0m':\n  \033[1;36msource\033[0m => \033[1;36m$file_source\033[0m,\n  \033[1;36mowner\033[0m  => \033[1;36mroot\033[0m,\n  \033[32mgroup\033[0m  => \033[1;36mroot\033[0m,\n  \033[1;36mmode\033[0m   => '\033[35m0644\033[0m'\n}
+Puppet file source: \033[33mfile\033[0m { '\033[35m/etc/file\033[0m':\n  \033[1;36msource\033[0m => \033[1;36m$file_source\033[0m,\n  \033[1;36mowner\033[0m  => \033[1;36mroot\033[0m,\n  \033[32mgroup\033[0m  => \033[1;36mroot\033[0m,\n  \033[1;36mmode\033[0m   => '\033[35m0644\033[0m'\n}
 Puppet exec: \033[32mexec\033[0m { '\033[35m/bin/file\033[0m':\n  \033[1;36mcommand\033[0m => '\033[35m/bin/file\033[0m',\n  \033[1;36monlyif\033[0m  => '\033[35m/usr/bin/test -f /bin/file\033[0m',\n}
 Edit executable in $PATH: vim $(which howto)

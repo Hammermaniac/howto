@@ -1,14 +1,43 @@
 #!/bin/bash
-echo ''
 
+# Declare book name in ${books} array, e.g. books=( "mybook" "git" )
+# Then create a file in ~/.common-configs/ using the naming convention: howtos.mybook
+#
+# So the above should be:
+#   ~/.common-configs/howtos.mybook
+#   ~/.common-configs/howtos.git
+
+books=( "void" )
 n=$#
 
-for n do
-  grep -i "$1" ~/.common-configs/howtos | while read -r line
+# Exit if no arguments are supplied, nothing to do.
+if [ $# -eq 0 ] ; then 
+  echo "No arguments supplied." ; 
+else 
+  echo '' 
+fi
+
+for n do {
+  # Escape if we run out of arguments.
+  if [ $# -eq 0 ] ; then
+    exit
+  fi
+  # If argument is a book title (i.e in ${books} array), use the specified book.
+  if [[ "${books[@]}" =~ "$1" ]]
+    then
+	book="/home/$USER/.common-configs/howtos.$1"
+  	shift
+  else
+  	book="/home/$USER/.common-configs/howtos"
+  fi
+  # Find supplied argument (keyword) in book and display.
+  grep -i "$1" "$book" | while read -r line
     do
-  	  #echo  ""
-  	  line=$(echo -e "$line" | sed 's/: /:\n/')
-	  echo -e "$line\n"
+	echo '——————————————————————————————————'
+  	line=$(echo -e "$line" | sed 's/: /:\n——————————————————————————————————\n/')
+	echo -e "$line\n"
     done
   shift
-done
+} done
+
+exit
