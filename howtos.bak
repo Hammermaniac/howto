@@ -1,9 +1,46 @@
 Create merge request with git push command: git push -u origin <current-branch-to-merge> -o merge_request.create -o merge_request.target=<upstream-target>
 Reset git repository to upstream state: git reset --hard @{u}
-Git use global gitignore: git config core.excludesfile ~/.gitignore
+Git config use global gitignore: git config core.excludesfile ~/.gitignore
 Git get URL of upstream repository: git config --get remote.origin.url
 Fix expired APT-key: sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com <key-id>
 Show connections: nmcli connection
 Bring interfaces and VPN up/down: nmcli connection up <NAME>
 Push output to clipboard: cat ~/emdash | xclip -selection clipboard
-Mount CIFS with user permissions: sudo mount -t cifs -o uid=1000,gid=1000 //192.168.1.18/guides_tools /NAS01_GuidesTools/
+Mount CIFS with user permissions: sudo mount -t cifs -o uid=1000,gid=1000 //192.168.1.18/fileshare /mnt/fileshare
+Bash script For loop: for n do
+  shift
+done
+Bash script read from file While loop: while IFS= read -r line
+  do
+	  echo -e "$line" >> ~/personal/howto/howtos.bak
+  done < ~/personal/howto/howtos
+Perl replace text in file: perl -i -p -e 's{Exec=/usr/bin/google-chrome-stable$}{Exec=/bin/bash -c "chrome"}' /usr/share/google-chrome.desktop
+Puppet class: class node_management::chrome {
+}
+Puppet variable: $file_source = 'puppet:///modules/node_management/etc/file'
+Puppet file source: file { '/etc/file':
+  source => $file_source,
+  owner  => root,
+  group  => root,
+  mode   => '0644'
+}
+Puppet exec: exec { '/bin/file':
+  command => '/bin/file',
+  onlyif  => '/usr/bin/test -f /bin/file',
+}
+Edit executable in $PATH: vim $(which howto)
+VirtualBox list VMs: vboxmanage list vms
+VirtualBox power on headless VM: vboxmanage startvm "server-vm" --type headless
+VirtualBox power off headless VM: vboxmanage controlvm "server-vm" poweroff --type headless
+Kill SSH session: Type (w) or (who) to see ssh connections.
+  pkill -9 -t pts/3
+Use a Puppet fact: if $::facts['machine_info']['role'] in $roles {
+  include node_management::role
+}
+Add git remote url: git remote add alt-repository git@github.com:myusername/myrepo.git
+Global git config: git config --global user.name <name>
+git config --global user.email <email>
+git config --system core.editor <editor>
+Find block device UUID (you likely need sudo): blkid -o value -s UUID /dev/sda1
+Run an rsync showing progress: Specifying a / after the source directory will copy its contents, not the directory itself.
+  rsync -ax --info=progress2 ~/files /mnt/storage-device
