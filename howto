@@ -28,7 +28,7 @@ for n do {
 	book="/home/$USER/.common-configs/howtos.$1"
   	shift
 	if [ $# -eq 0 ] ; then
-  	  echo -e "\033[1;31m# No arguments supplied.\033[0m Displaying all book contents instead."
+  	  echo -e "\033[1;32m# No arguments supplied after book.\033[0m Displaying all book contents instead."
 	  echo ''
 	fi
   else
