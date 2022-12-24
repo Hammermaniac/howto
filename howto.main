@@ -9,36 +9,69 @@ Red         —   \033[1;31m
 Text Clear  —   \033[0m
 
 Create merge request with git push command: \033[1;36mgit\033[0m push \033[33m-u\033[0m origin \033[35m<current-branch-to-merge>\033[0m \033[33m-o\033[0m merge_request.create \033[33m-o\033[0m merge_request.target=\033[35m<upstream-target>\033[0m
+
 Reset git repository to upstream state: \033[1;36mgit\033[0m reset \033[35m--hard\033[0m @\033[33m{\033[0mu\033[33m}\033[0m
+
 Git config use global gitignore: \033[1;36mgit\033[0m config \033[33mcore.excludesfile\033[0m ~/.gitignore
+
 Git get URL of upstream repository: \033[1;36mgit\033[0m config \033[35m--get\033[0m \033[33mremote.origin.url\033[0m
+
 Fix expired APT-key: \033[1;36msudo apt-key\033[0m adv \033[35m--recv-keys --keyserver\033[0m \033[33mkeyserver.ubuntu.com\033[0m \033[35m<key-id>\033[0m
+
 Show connections: \033[1;36mnmcli\033[0m connection
+
 Bring interfaces and VPN up/down: \033[1;36mnmcli\033[0m connection \033[1;32mup\033[0m \033[35m<NAME>\033[0m
+
 Push output to clipboard: \033[1;36mcat\033[0m ~/emdash | \033[1;36mxclip\033[0m \033[33m-selection clipboard\033[0m
+
 Mount CIFS with user permissions: \033[1;36msudo\033[0m mount \033[33m-t\033[0m cifs \033[33m-o\033[0m \033[35muid=1000,gid=1000\033[0m \033[35m//\033[33m192.168.1.18\033[35m/fileshare\033[0m /mnt/fileshare
+
 Bash script for n loop: \033[33mfor\033[0m n \033[33mdo\n  shift\ndone\033[0m
+
 Bash script read from file: \033[33mwhile \033[36mIFS\033[0m= \033[33mread -r line\n  do\n	  echo \033[35m-e\033[0m "\033[36m$line\033[0m" \033[33m>>\033[0m ~/personal/howto/howtos.bak\n  \033[33mdone\033[0m < ~/personal/howto/howtos
+
 Perl replace text in file: \033[1;36mperl\033[0m \033[33m-i -p -e\033[0m '\033[35ms{Exec=/usr/bin/google-chrome-stable$}{Exec=/bin/bash -c "chrome"}\033[0m' /usr/share/google-chrome.desktop
+
 Puppet class: \033[33mclass\033[0m \033[1;36mnode_management::chrome\033[0m {\n}
+
 Puppet variable: \033[1;36m$file_source\033[0m = '\033[35mpuppet:///modules/node_management/etc/file\033[0m'
+
 Puppet file source: \033[33mfile\033[0m { '\033[35m/etc/file\033[0m':\n  \033[1;36msource\033[0m => \033[1;36m$file_source\033[0m,\n  \033[1;36mowner\033[0m  => \033[1;36mroot\033[0m,\n  \033[32mgroup\033[0m  => \033[1;36mroot\033[0m,\n  \033[1;36mmode\033[0m   => '\033[35m0644\033[0m'\n}
+
 Puppet exec: \033[32mexec\033[0m { '\033[35m/bin/file\033[0m':\n  \033[1;36mcommand\033[0m => '\033[35m/bin/file\033[0m',\n  \033[1;36monlyif\033[0m  => '\033[35m/usr/bin/test -f /bin/file\033[0m',\n}
+
 Edit executable in $PATH: \033[1;36mvim\033[0m \033[35m$(\033[1;36mwhich\033[0m howto\033[35m)\033[0m
+
 VirtualBox list VMs: \033[1;36mvboxmanage\033[0m list vms
+
 VirtualBox power on headless VM: \033[1;36mvboxmanage\033[0m startvm \033[33m"server-vm"\033[0m --type headless
+
 VirtualBox power off headless VM: \033[1;36mvboxmanage\033[0m controlvm \033[33m"server-vm"\033[0m poweroff --type headless
+
 Kill SSH session: Type \033[1;36m(\033[0m\033[33mw\033[1;36m)\033[0m or \033[1;36m(\033[0m\033[33mwho\033[1;36m)\033[0m to see ssh connections.\n  \033[1;36mpkill\033[0m -9 -t \033[33mpts/3\033[0m
+
 Use a Puppet fact: \033[1;36mif $::facts\033[0m['\033[35mmachine_info\033[0m']['\033[35mrole\033[0m'] \033[33min\033[0m \033[1;36m$roles\033[0m {\n  \033[1;36minclude node_management::role\033[0m\n}
+
 Add git remote url: \033[1;36mgit\033[0m remote add \033[33malt-repository\033[0m git@github.com:myusername/myrepo.git
+
 Global git config: \033[1;36mgit\033[0m config \033[35m--global\033[0m \033[33muser.name\033[0m \033[35m<name>\033[0m\n\033[1;36mgit\033[0m config \033[35m--global\033[0m \033[33muser.email\033[0m \033[35m<email>\033[0m\n\033[1;36mgit\033[0m config \033[35m--system\033[0m \033[33mcore.editor\033[0m \033[35m<editor>\033[0m
+
 Find block device UUID (you likely need \033[1;36msudo\033[0m): \033[1;36mblkid\033[0m \033[33m-o\033[0m value \033[33m-s\033[0m UUID \033[33m/dev/sda1\033[0m
+
 Run an rsync showing progress: Specifying a \033[1;36m/\033[0m after the source directory will copy its contents, not the directory itself.\n  \033[1;36mrsync\033[0m \033[33m-ax\033[0m \033[35m--info=progress2\033[0m ~/files /mnt/storage-device
+
 Bash script read from file single line: \033[1;36mwhile\033[0m IFS= \033[1;36mread\033[0m -r line; \033[33mdo {\033[0m \033[1;36mecho\033[0m -e \033[33m"\033[0m\033[36m$line\033[0m\033[33m"\033[0m \033[33m>>\033[0m ./howto.book \033[33m}\033[0m; \033[33mdone <\033[0m ~/.common-configs/howto.test
+
 Bash script for loop: \033[33mfor ((i =\033[0m \033[35m1\033[0m \033[33m; i <=\033[0m \033[36m$var\033[0m \033[33m; i++))\n  do\n	echo\033[0m "\033[36m$string\033[0m"\n  \033[33mdone\033[0m
+
 Bash script until loop: \033[33muntil\033[0m [[ \033[36m$var\033[0m \033[33m=\033[0m \033[35m"192.168.1.1"\033[0m ]]\n  \033[33mdo\n	echo\033[0m "\033[36m$string\033[0m"\n  \033[33mdone\033[0m
+
 Bash script prompt user: \033[33mread\033[0m -ep \033[35m"Enter string: "\033[0m VAR
+
 Bash script while loop: \033[33mwhile\033[0m [[ \033[36m$string\033[0m \033[33m=\033[0m \033[35m"mystring"\033[0m ]]\n  \033[33mdo\n	echo\033[0m "\033[36m$string\033[0m"\n  \033[33mdone\033[0m
+
 Bash script if else statement: \033[33mif\033[0m [[ \033[36m$var\033[0m \033[33m=\033[0m \033[35m1\033[0m ]]\n  \033[33mthen\n	echo\033[0m "\033[36m$string\033[0m"\n\033[33melif\n  then\n	echo\033[0m "\033[36m$string2\033[0m"\n\033[33mfi\033[0m
+
 Bash script if statement: \033[33mif\033[0m [[ \033[36m$string\033[0m \033[33m=\033[0m \033[35m1\033[0m ]]\n  \033[33mthen\n	echo\033[0m "\033[36m$string\033[0m"\n\033[33mfi\033[0m
+
 Bash sed substitute string from file: Use the \033[1;36m-i\033[0m option to write to file.\n  \033[1;36msed\033[0m \033[33m's/replace me/you are replaced/'\033[0m ~/.common-configs/howto.main
