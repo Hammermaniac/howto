@@ -1,3 +1,4 @@
 Convert all webp to gifs in current directory: \033[33mfor\033[0m f in \033[35m*\033[0m.webp;\033[33mdo\033[0m \033[1;36mecho\033[0m \033[33m"\033[0m\033[36m$f\033[0m\033[33m"\033[0m;\033[1;36mpython3\033[0m -c \033[33m"from PIL import Image;Image.open('\033[0m\033[36m$f\033[0m\033[33m').save('${f%.webp}.gif','gif',save_all=True,optimize=True,background=0)"\033[0m;\033[33mdone\033[0m
 
 ffmpeg cut mp4 video: \033[1;36mffmpeg\033[0m \033[33m-i\033[0m final.mp4 \033[33m-ss\033[0m \033[35m00:00:00\033[0m \033[33m-t\033[0m \033[35m00:00:20\033[0m \033[33m-async 1 -strict -2\033[0m cut-final.mp4
+Run java .jar program: \033[1;36mjava\033[0m \033[33m-jar\033[0m Iris-Installer-3.0.1.jar

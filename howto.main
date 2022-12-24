@@ -8,6 +8,10 @@ Green       —   \033[32m
 Red         —   \033[1;31m
 Text Clear  —   \033[0m
 
+Git add file to staging: \033[1;36mgit\033[0m add howto.main
+
+Git commit: \033[1;36mgit\033[0m commit -m \033[33m"Add entry to howto.main."\033[0m
+
 Create merge request with git push command: \033[1;36mgit\033[0m push \033[33m-u\033[0m origin \033[35m<current-branch-to-merge>\033[0m \033[33m-o\033[0m merge_request.create \033[33m-o\033[0m merge_request.target=\033[35m<upstream-target>\033[0m
 
 Reset git repository to upstream state: \033[1;36mgit\033[0m reset \033[35m--hard\033[0m @\033[33m{\033[0mu\033[33m}\033[0m
@@ -36,9 +40,11 @@ Puppet class: \033[33mclass\033[0m \033[1;36mnode_management::chrome\033[0m {\n}
 
 Puppet variable: \033[1;36m$file_source\033[0m = '\033[35mpuppet:///modules/node_management/etc/file\033[0m'
 
-Puppet file source: \033[33mfile\033[0m { '\033[35m/etc/file\033[0m':\n  \033[1;36msource\033[0m => \033[1;36m$file_source\033[0m,\n  \033[1;36mowner\033[0m  => \033[1;36mroot\033[0m,\n  \033[32mgroup\033[0m  => \033[1;36mroot\033[0m,\n  \033[1;36mmode\033[0m   => '\033[35m0644\033[0m'\n}
+Puppet file resource: \033[33mfile\033[0m { '\033[35mfile\033[0m':\n  \033[1;36mpath\033[0m   => '\033[35m/etc/file\033[0m'\n  \033[1;36msource\033[0m => \033[1;36m$file_source\033[0m,\n  \033[1;36mowner\033[0m  => \033[1;36mroot\033[0m,\n  \033[32mgroup\033[0m  => \033[1;36mroot\033[0m,\n  \033[1;36mmode\033[0m   => '\033[35m0644\033[0m'\n}
 
-Puppet exec: \033[32mexec\033[0m { '\033[35m/bin/file\033[0m':\n  \033[1;36mcommand\033[0m => '\033[35m/bin/file\033[0m',\n  \033[1;36monlyif\033[0m  => '\033[35m/usr/bin/test -f /bin/file\033[0m',\n}
+Puppet file source: \033[33mfile\033[0m { '\033[35mfile\033[0m':\n  \033[1;36msource\033[0m => '\033[35mpuppet:///modules/node_management/etc/file\033[0m',\n}
+
+Puppet exec resource: \033[32mexec\033[0m { '\033[35m/bin/file\033[0m':\n  \033[1;36mcommand\033[0m => '\033[35m/bin/file\033[0m',\n  \033[1;36monlyif\033[0m  => '\033[35m/usr/bin/test -f /bin/file\033[0m',\n}
 
 Edit executable in $PATH: \033[1;36mvim\033[0m \033[35m$(\033[1;36mwhich\033[0m howto\033[35m)\033[0m
 
@@ -75,3 +81,5 @@ Bash script if else statement: \033[33mif\033[0m [[ \033[36m$var\033[0m \033[33m
 Bash script if statement: \033[33mif\033[0m [[ \033[36m$string\033[0m \033[33m=\033[0m \033[35m1\033[0m ]]\n  \033[33mthen\n	echo\033[0m "\033[36m$string\033[0m"\n\033[33mfi\033[0m
 
 Bash sed substitute string from file: Use the \033[1;36m-i\033[0m option to write to file.\n  \033[1;36msed\033[0m \033[33m's/replace me/you are replaced/'\033[0m ~/.common-configs/howto.main
+
+Print your public ssh key: \033[1;36mcat\033[0m ~/.ssh/id_rsa.pub
