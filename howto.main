@@ -1,12 +1,12 @@
-Colors:
-Cyan Bold   :   \033[1;36m
-Purple      :   \033[35m
-Yellow      :   \033[33m
-Blue        :   \033[34m
-Green Bold  :   \033[1;32m
-Green       :   \033[32m
-Red         :   \033[1;31m
-Text Clear  :   \033[0m
+# Colors
+Cyan Bold   —   \033[1;36m
+Purple      —   \033[35m
+Yellow      —   \033[33m
+Blue        —   \033[34m
+Green Bold  —   \033[1;32m
+Green       —   \033[32m
+Red         —   \033[1;31m
+Text Clear  —   \033[0m
 
 Create merge request with git push command: \033[1;36mgit\033[0m push \033[33m-u\033[0m origin \033[35m<current-branch-to-merge>\033[0m \033[33m-o\033[0m merge_request.create \033[33m-o\033[0m merge_request.target=\033[35m<upstream-target>\033[0m
 Reset git repository to upstream state: \033[1;36mgit\033[0m reset \033[35m--hard\033[0m @\033[33m{\033[0mu\033[33m}\033[0m
