@@ -5,3 +5,7 @@ ffmpeg cut mp4 video: \033[1;36mffmpeg\033[0m \033[33m-i\033[0m final.mp4 \033[3
 Run java .jar program: \033[1;36mjava\033[0m \033[33m-jar\033[0m Iris-Installer-3.0.1.jar
 
 Replace whitespace in file names in the current directory: Non-recursive.\n  \033[33mfor\033[0m f in \033[35m*\033[0m\ \033[35m*\033[0m; \033[33mdo\033[0m \033[1;36mmv\033[0m \033[33m"\033[0m\033[36m$f\033[0m\033[33m" "${f// /_}"\033[0m; \033[33mdone\033[0m
+
+Quick scan all open ports on IP: \033[1;36mnmap\033[0m \033[33m-p-\033[0m 192.168.1.82
+
+Probe port on IP: \033[1;36mnc\033[0m \033[33m-zv\033[0m 192.168.1.82 40595
