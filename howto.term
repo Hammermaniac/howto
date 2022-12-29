@@ -1,0 +1,41 @@
+Go to the beginning of the line you are currently typing on: Ctrl + A
+
+Go to the end of the line: Ctrl + E
+
+Kill whatever you are running or start a new prompt: Ctrl + C
+
+Stronger Ctrl + C: (Used when the terminal is not reponding.)\n  Ctrl + \
+
+Exit the current shell: Ctrl + D
+
+Clears the Screen: Ctrl + L
+
+Clears the line before the cursor position: Ctrl + U
+
+Same as backspace: Ctrl + H
+
+Lets you search through previously used commands: Ctrl + R
+
+Suspend process into background: Press \033[1;36m(\033[0m\033[33mfg\033[0m\033[1;36m)\033[0m to restore it.\n  Ctrl + Z
+
+Delete the word before the cursor: Ctrl + W
+
+Clear the line after the cursor: Ctrl + K
+
+Paste or "Yank" deleted text back to the terminal: When you've cleared text with Ctrl + U, Ctrl + K etc.\n  Ctrl + Y
+
+Freeze the screen and stop any display on the screen: Ctrl + S
+
+Un-freeze the screen and lets display continue: Ctrl + Q
+
+Swap the last two characters before the cursor: Ctrl + T
+
+Swap the last two words before the cursor: Esc + T
+
+Paste previous command's argument $1 to prompt: Alt .
+
+Move cursor forward one word on the current line: Alt + F
+
+Move cursor backward one word on the current line: Alt + B
+
+Auto-complete files and folder names: Tab

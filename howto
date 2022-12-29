@@ -7,7 +7,7 @@
 #   ~/.common-configs/howtos.mybook
 #   ~/.common-configs/howtos.git
 
-books=( "void" )
+books=( "void" "term" )
 n=$#
 
 # Exit if no arguments are supplied, nothing to do.
