@@ -7,9 +7,12 @@
 #   ~/.common-configs/howtos.mybook
 #   ~/.common-configs/howtos.git
 
-# VARIABLES
+## Books ##
 books=( "void" "term" )
+
+# VARIABLES
 n=$#
+
 
 # FUNCTIONS
 displayhelp() {
@@ -22,16 +25,54 @@ displayhelp() {
 	echo "  -h, --help       Display this help text."
 	echo "  -n, --nocolor    Don't use colors with output."
 	echo "  -b, --books      Display all book names configured in the script."
-	echo "  -u, --usebook    Only search in the specified book."
+	echo "  -o, --onlybook    Only search in the specified book."
 	echo "  -a, --allbooks   Search all books simultaneously."
 	echo
         echo "Specifying a book name as an argument will search for the given string in the specified book."
         echo "Example, assume book name is 'mybook':"
         echo "howto mybook 'git config'"
-	echo 
 	echo
 	echo "TIP: Specify a ':' as the search string to print all entries of any book."
 	echo
+}
+
+readbook() {
+	for n do {
+                # Escape if we run out of arguments.
+                if [ $# -eq 0 ] ; then
+                        exit 0
+                fi
+		# Find supplied argument (keyword) in book and display.
+                grep -i "$1" "$book" | while read -r line
+                do
+                        if [ "$1" == '' ] ; then
+                                break
+                        fi
+                        echo -e "\033[36m——————————————————————————————————\033[0m"
+                        line=$(printf '%b\n' "$( echo -e "$line" | sed ''/": "/s//:`printf "\033[1;36m——————————————————————————————————\033[0m"`/'' | sed 's/——————————————————————————————————/\n——————————————————————————————————\n/' )")
+                        echo -e "$line\n\n"
+                done
+                shift
+	} done
+}
+
+usebook() {
+	book="/home/$USER/.common-configs/howto.$1"
+	if [[ "${books[@]}" =~ "$1" ]]
+        then
+		shift
+		if [ $# -eq 0 ] ; then
+			echo -e "Error: No arguments supplied after book."
+			displayhelp
+		fi
+		readbook
+	else
+		if test -f $book ; then
+			echo "File '$book' exists, but isn't configured in the 'books' array."
+			book="/home/$USER/.common-configs/howto.main"
+		fi
+	fi
+
 }
 
 legacy() {
@@ -88,10 +129,10 @@ do
 			displaybooks
 			exit 0
 			;;
-		-u|--usebook) # Only search in specific book.
+		-o|--onlybook) # Only search in specific book.
 			shift
 			book="/home/$USER/.common-configs/howto.$1"
-			legacy "$@"
+			usebook "$@"
 			;;
 		-a|--allbooks) # Search all books for provided string.
 			allbooks
