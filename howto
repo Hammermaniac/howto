@@ -25,7 +25,7 @@ displayhelp() {
 	echo "  -h, --help       Display this help text."
 	echo "  -n, --nocolor    Don't use colors with output."
 	echo "  -b, --books      Display all book names configured in the script."
-	echo "  -o, --onlybook    Only search in the specified book."
+	echo "  -o, --onlybook   Only search in the specified book."
 	echo "  -a, --allbooks   Search all books simultaneously."
 	echo
         echo "Specifying a book name as an argument will search for the given string in the specified book."
@@ -58,24 +58,27 @@ readbook() {
 }
 
 usebook() {
-	if [ "$onlybook" == false ] ; then
-		book="/home/$USER/.common-configs/howto.$1"
-		if [[ "${books[@]}" =~ "$1" ]]
-		then
-			shift
-			if [ $# -eq 0 ] ; then
-				echo -e "Error: No arguments supplied after book."
-				displayhelp
-			fi
-			readbook
-		else
-			if test -f $book ; then
-				echo "File '$book' exists, but isn't configured in the 'books' array."
-				book="/home/$USER/.common-configs/howto.main"
-			fi
+	book="/home/$USER/.common-configs/howto.$1"
+	if [[ "${books[@]}" =~ "$1" ]]
+	then
+		shift
+		if [ $# -eq 0 ] ; then
+			echo -e "Error: No arguments supplied after book."
+			displayhelp
+		fi
+		readbook
+	else
+		if test -f $book ; then
+			echo "File '$book' exists, but isn't configured in the 'books' array."
+			book="/home/$USER/.common-configs/howto.main"
 		fi
 	fi
+}
 
+displaybooks() {
+	echo
+	echo "${books[@]}"
+	echo
 }
 
 legacy() {
@@ -135,7 +138,7 @@ do
 		-o|--onlybook) # Only search in specific book.
 			shift
 			book="/home/$USER/.common-configs/howto.$1"
-			onlybook=true
+			# onlybook=true
 			shift
 			readbook "$@"
 			exit 0
