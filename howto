@@ -12,7 +12,7 @@ books=( "void" "term" )
 
 # VARIABLES
 n=$#
-
+onlybook=false
 
 # FUNCTIONS
 displayhelp() {
@@ -37,6 +37,7 @@ displayhelp() {
 }
 
 readbook() {
+	echo
 	for n do {
                 # Escape if we run out of arguments.
                 if [ $# -eq 0 ] ; then
@@ -57,19 +58,21 @@ readbook() {
 }
 
 usebook() {
-	book="/home/$USER/.common-configs/howto.$1"
-	if [[ "${books[@]}" =~ "$1" ]]
-        then
-		shift
-		if [ $# -eq 0 ] ; then
-			echo -e "Error: No arguments supplied after book."
-			displayhelp
-		fi
-		readbook
-	else
-		if test -f $book ; then
-			echo "File '$book' exists, but isn't configured in the 'books' array."
-			book="/home/$USER/.common-configs/howto.main"
+	if [ "$onlybook" == false ] ; then
+		book="/home/$USER/.common-configs/howto.$1"
+		if [[ "${books[@]}" =~ "$1" ]]
+		then
+			shift
+			if [ $# -eq 0 ] ; then
+				echo -e "Error: No arguments supplied after book."
+				displayhelp
+			fi
+			readbook
+		else
+			if test -f $book ; then
+				echo "File '$book' exists, but isn't configured in the 'books' array."
+				book="/home/$USER/.common-configs/howto.main"
+			fi
 		fi
 	fi
 
@@ -132,7 +135,10 @@ do
 		-o|--onlybook) # Only search in specific book.
 			shift
 			book="/home/$USER/.common-configs/howto.$1"
-			usebook "$@"
+			onlybook=true
+			shift
+			readbook "$@"
+			exit 0
 			;;
 		-a|--allbooks) # Search all books for provided string.
 			allbooks
