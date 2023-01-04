@@ -17,6 +17,7 @@ numbooks=${#books[@]}
 debug_howto=false
 onlybook=false
 allbooks=false
+nocolor=false
 legacy=false
 
 # FUNCTIONS
@@ -46,6 +47,18 @@ displayhelp() {
 	echo
 }
 
+print_color(){
+	echo -e "\033[36m——————————————————————————————————\033[0m"
+	line=$(printf '%b\n' "$( echo -e "$line" | sed ''/": "/s//:`printf "\033[1;36m——————————————————————————————————\033[0m"`/'' | sed 's/——————————————————————————————————/\n——————————————————————————————————\n/' )")
+	echo -e "$line\n"
+}
+
+print_no_color() {
+	echo '——————————————————————————————————'
+	line=$(echo -e "$line" | sed 's,\x1B\[[0-9;]*[a-zA-Z],,g' | sed 's/: /\n——————————————————————————————————\n/')
+	echo -e "$line\n"
+}
+
 readbook() {
 	for n do {
                 # Escape if we run out of arguments.
@@ -54,6 +67,10 @@ readbook() {
 			echo "   readbook():               Args: $@"
 			echo "   readbook():                Arg: $1"
 			echo "   readbook():       Book file is: $book"
+			echo "   readbook()::option    onlybook: $onlybook"
+			echo "   readbook()::option    allbooks: $allbooks"
+			echo "   readbook()::option     nocolor: $nocolor"
+			echo "   readbook()::option      legacy: $legacy"
 			echo
 		fi
 		# Find supplied argument (keyword) in book and display.
@@ -67,9 +84,11 @@ readbook() {
                                 break
                         fi
 			echo
-                        echo -e "\033[36m——————————————————————————————————\033[0m"
-                        line=$(printf '%b\n' "$( echo -e "$line" | sed ''/": "/s//:`printf "\033[1;36m——————————————————————————————————\033[0m"`/'' | sed 's/——————————————————————————————————/\n——————————————————————————————————\n/' )")
-                        echo -e "$line\n"
+			if [ "$nocolor" == false ] ; then
+				print_color
+			else
+				print_no_color
+			fi
                 done
                 shift
 		# If no option was specified, run in freeform mode (i.e legacy).
@@ -158,8 +177,10 @@ do
 			echo
                         ;;
 		-n|--nocolor) # Don't use colors with script output.
-			nocolor # Call the nocolor function.
+			nocolor=true
 			shift
+			usebook "$@"
+			exit 0
 			;;
 		-b|--books) # Display all book names.
 			displaybooks
