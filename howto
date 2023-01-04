@@ -166,60 +166,60 @@ fi
 
 while [ ! "$#" -eq 0 ]
 do
-    case "$1" in
-        -h|--help) # Display the help text.
-            displayhelp # Call the displayhelp function.
-            exit 0
-            ;;
-        -d|--debug) # Enable debug messages.
-            debug_howto=true
-            shift
-            echo
-            ;;
-        -n|--nocolor) # Don't use colors with script output.
-            nocolor=true
-            shift
-            ;;
-        -b|--books) # Display all book names.
-            displaybooks
-            exit 0
-            ;;
-        -o|--onlybook) # Only search in specific book.
-            if [[ "${books[@]}" =~ "$2" ]] ; then
-                if [ ! -r "/home/$USER/.common-configs/howto.$2" ] ; then
-                    echo "File '/home/$USER/.common-configs/howto.$2' does not exist or isn't readable."
+        case "$1" in
+                -h|--help) # Display the help text.
+                    displayhelp # Call the displayhelp function.
+                    exit 0
+                    ;;
+                -d|--debug) # Enable debug messages.
+                    debug_howto=true
+                    shift
+                    echo
+                    ;;
+                -n|--nocolor) # Don't use colors with script output.
+                    nocolor=true
+                    shift
+                    ;;
+                -b|--books) # Display all book names.
+                    displaybooks
+                    exit 0
+                    ;;
+                -o|--onlybook) # Only search in specific book.
+                    if [[ "${books[@]}" =~ "$2" ]] ; then
+                        if [ ! -r "/home/$USER/.common-configs/howto.$2" ] ; then
+                            echo "File '/home/$USER/.common-configs/howto.$2' does not exist or isn't readable."
+                            exit 1
+                        fi
+                        shift
+                        book="/home/$USER/.common-configs/howto.$1"
+                        shift
+                        checknoargs "$@"
+                        readbook "$@"
+                    else
+                        echo "The book you've specified does not exist."
+                        echo
+                        exit 1
+                    fi
+                    exit 0
+                    ;;
+                -a|--allbooks) # Search all books simultaneously for provided string.
+                    allbooks=true
+                    shift
+                    usebook "$@"
+                    exit 0
+                    ;;
+                --)
+                    break
+                    ;;
+                -*)
+                    echo "Invalid option: '$1'"
+                    echo "Try '$0 --help' for more information."
                     exit 1
-                fi
-                shift
-                book="/home/$USER/.common-configs/howto.$1"
-                shift
-                checknoargs "$@"
-                readbook "$@"
-            else
-                echo "The book you've specified does not exist."
-                echo
-                exit 1
-            fi
-            exit 0
-            ;;
-        -a|--allbooks) # Search all books simultaneously for provided string.
-            allbooks=true
-            shift
-            usebook "$@"
-            exit 0
-            ;;
-        --)
-            break
-            ;;
-        -*)
-            echo "Invalid option: '$1'"
-            echo "Try '$0 --help' for more information."
-            exit 1
-            ;;
-        *)
-            legacy=true
-            usebook "$@"
-            exit 0
-            ;;
-    esac
+                    ;;
+                *)
+                    legacy=true
+                    usebook "$@"
+                    exit 0
+                    ;;
+        esac
 done
