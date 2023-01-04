@@ -141,40 +141,6 @@ displaybooks() {
        	echo
 }
 
-runlegacy() {
-	for n do {
-		# Escape if we run out of arguments.
-		if [ $# -eq 0 ] ; then
-			exit 0
-		fi
-		# If argument is a book title (i.e in ${books} array), use the specified book.
-		if [[ "${books[@]}" =~ "$1" ]]
-		then
-			book="/home/$USER/.common-configs/howto.$1"
-			shift
-			if [ $# -eq 0 ] ; then
-				echo -e "Error: No arguments supplied after book."
-				displayhelp
-				exit 1
-			fi
-		else
-			book="/home/$USER/.common-configs/howto.main"
-		fi
-		echo
-		# Find supplied argument (keyword) in book and display.
-		grep -i "$1" "$book" | while read -r line
-		do
-			if [ "$1" == '' ] ; then
-				break
-			fi
-			echo -e "\033[36m——————————————————————————————————\033[0m"
-			line=$(printf '%b\n' "$( echo -e "$line" | sed ''/": "/s//:`printf "\033[1;36m——————————————————————————————————\033[0m"`/'' | sed 's/——————————————————————————————————/\n——————————————————————————————————\n/' )")
-			echo -e "$line\n\n"
-		done
-		shift
-	} done
-}
-
 # Exit if no arguments are supplied, nothing to do.
 if [ $# -eq 0 ] ; then
         displayhelp
