@@ -180,6 +180,8 @@ do
 				readbook "$@"
 			else
 				echo "The book you've specified does not exist."
+				echo
+				exit 1
 			fi
 			exit 0
 			;;
@@ -198,7 +200,6 @@ do
 			exit 1
 			;;
 		*)
-			# runlegacy "$@"
 			legacy=true
 			usebook "$@"
 			exit 0
