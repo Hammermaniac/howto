@@ -1,18 +1,27 @@
 #!/bin/bash
 
+# Exit if no arguments are supplied, nothing to do.
+if [ $# -eq 0 ] ; then
+        displayhelp
+        exit 1
+fi
+
 # Declare book name in ${books} array, e.g. books=( "mybook" "git" )
-# Then create a file in ~/.common-configs/ using the naming convention: howtos.mybook
+# Then create a file in ~/.common-configs/ using the naming convention: howto.mybook
 #
 # So the above should be:
-#   ~/.common-configs/howtos.mybook
-#   ~/.common-configs/howtos.git
+#   ~/.common-configs/howto.mybook
+#   ~/.common-configs/howto.git
 
 ## Books ##
 books=( "void" "term" )
 
 # VARIABLES
 n=$#
+numbooks=${#books[@]}
 onlybook=false
+allbooks=false
+legacy=false
 
 # FUNCTIONS
 displayhelp() {
@@ -57,20 +66,34 @@ readbook() {
 	} done
 }
 
+checkargs() {
+	# Check if we have remaining arguments to use as search strings in readbook().
+	if [ $# -eq 0 ] ; then
+		echo -e "Error: No arguments supplied after book."
+                displayhelp
+                exit 1
+	fi
+}
+
 usebook() {
-	book="/home/$USER/.common-configs/howto.$1"
-	if [[ "${books[@]}" =~ "$1" ]]
-	then
+#	if [ "$allbooks" == true ] ; then
+#	fi
+
+	if [[ "${books[@]}" =~ "$1" ]] ; then
+		book="/home/$USER/.common-configs/howto.$1"
 		shift
-		if [ $# -eq 0 ] ; then
-			echo -e "Error: No arguments supplied after book."
-			displayhelp
-		fi
-		readbook
+		checkargs
+		readbook "$@"
 	else
 		if test -f $book ; then
 			echo "File '$book' exists, but isn't configured in the 'books' array."
-			book="/home/$USER/.common-configs/howto.main"
+			echo "Please add it in order for the --allbooks feature to work."
+			book="/home/$USER/.common-configs/howto.$1"
+			shift
+			checkargs
+			readbook "$@"
+		else
+			
 		fi
 	fi
 }
@@ -78,10 +101,10 @@ usebook() {
 displaybooks() {
 	echo
 	echo "${books[@]}"
-	echo
+       	echo
 }
 
-legacy() {
+runlegacy() {
 	for n do {
 		# Escape if we run out of arguments.
 		if [ $# -eq 0 ] ; then
@@ -95,6 +118,7 @@ legacy() {
 			if [ $# -eq 0 ] ; then
 				echo -e "Error: No arguments supplied after book."
 				displayhelp
+				exit 1
 			fi
 		else
 			book="/home/$USER/.common-configs/howto.main"
@@ -114,12 +138,6 @@ legacy() {
 	} done
 }
 
-# Exit if no arguments are supplied, nothing to do.
-if [ $# -eq 0 ] ; then
-	displayhelp
-	exit 1
-fi
-
 while [ ! "$#" -eq 0 ]
 do
 	case "$1" in
@@ -138,14 +156,16 @@ do
 		-o|--onlybook) # Only search in specific book.
 			shift
 			book="/home/$USER/.common-configs/howto.$1"
-			# onlybook=true
+			onlybook=true
 			shift
 			readbook "$@"
 			exit 0
 			;;
-		-a|--allbooks) # Search all books for provided string.
-			allbooks
+		-a|--allbooks) # Search all books simultaneously for provided string.
+			allbooks=true
 			shift
+			usebook "$@"
+			exit 0
 			;;
 		--)
 			break
@@ -156,7 +176,9 @@ do
 			exit 1
 			;;
 		*)
-			legacy "$@"
+			# runlegacy "$@"
+			legacy=true
+			usebook "$@"
 			exit 0
 			;;
 	esac
