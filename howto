@@ -64,8 +64,6 @@ readbook() {
 				echo "   readbook()::grep  Book file is: $book"
 			fi
                         if [ "$1" == '' ] ; then
-				echo "$1 not found in $book, it might be in another file or not present,"
-				echo "you can either add it or use ':' to print all entries of that file."
                                 break
                         fi
 			echo
