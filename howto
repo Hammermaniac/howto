@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Declare book name in 'books' array under the "## Books ##" section, e.g. books=( "mybook" "git" )
+# Declare a book name in the 'books' array under "## Books ##", e.g. books=( "mybook" "git" )
 # Then create a file in ~/.common-configs/ using the naming convention: howto.mybook
 #
 # So the above example points to these files:
@@ -20,6 +20,11 @@ allbooks=false
 legacy=false
 
 # FUNCTIONS
+howtomanual() {
+	echo 'Create a file in ~/.common-configs/ called howto.<bookname>
+	Declare book name in "books" array under the "## Books ##" section, e.g. books=( "mybook" "git" )'
+}
+
 displayhelp() {
 	echo
 	echo "Usage: howto [OPTION]... [STRING1] [STRING2]..."
@@ -46,14 +51,18 @@ readbook() {
                 # Escape if we run out of arguments.
 		checkargs "$@"
 		if [ "$debug_howto" == true ] ; then
-			echo "   readbook():           Args: $@"
-			echo "   readbook():            Arg: $1"
-			echo "   readbook():   Book file is: $book"
+			echo "   readbook():               Args: $@"
+			echo "   readbook():                Arg: $1"
+			echo "   readbook():       Book file is: $book"
 			echo
 		fi
 		# Find supplied argument (keyword) in book and display.
                 grep -i "$1" "$book" | while read -r line
                 do
+			if [ "$debug_howto" == true ] ; then
+				echo "   readbook()::grep           Arg: $1"
+				echo "   readbook()::grep  Book file is: $book"
+			fi
                         if [ "$1" == '' ] ; then
 				echo "$1 not found in $book, it might be in another file or not present,"
 				echo "you can either add it or use ':' to print all entries of that file."
@@ -85,8 +94,8 @@ checkargs() {
 checknoargs() {
 	# If using --debug, then display argument count.
 	if [ "$debug_howto" == true ] ; then
-		echo "checknoargs(): Number of args: $#"
-		echo "checknoargs():           Args: $@"
+		echo "checknoargs():     Number of args: $#"
+		echo "checknoargs():               Args: $@"
 		echo
 	fi
 	# Check if we do not have remaining arguments to use as search strings in readbook().
@@ -118,8 +127,8 @@ usebook() {
 	fi
         # If using --debug, then display arguments and 'book' (book file).
         if [ "$debug_howto" == true ] ; then
-                echo "    usebook():   Book file is: $book"
-                echo "    usebook():           Args: $@"
+                echo "    usebook():       Book file is: $book"
+                echo "    usebook():               Args: $@"
 		echo
         fi
 	checknoargs "$@"
@@ -203,6 +212,8 @@ do
 				shift
 				checknoargs "$@"
 				readbook "$@"
+			else
+				echo "The book you've specified does not exist."
 			fi
 			exit 0
 			;;
