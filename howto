@@ -55,7 +55,7 @@ print_color(){
 
 print_no_color() {
 	echo '——————————————————————————————————'
-	line=$(echo -e "$line" | sed 's,\x1B\[[0-9;]*[a-zA-Z],,g' | sed 's/: /\n——————————————————————————————————\n/')
+	line=$(echo -e "$line" | sed 's/\x1B\[[0-9;]*[a-zA-Z]//g' | sed 's/: /\n——————————————————————————————————\n/')
 	echo -e "$line\n"
 }
 
@@ -179,8 +179,6 @@ do
 		-n|--nocolor) # Don't use colors with script output.
 			nocolor=true
 			shift
-			usebook "$@"
-			exit 0
 			;;
 		-b|--books) # Display all book names.
 			displaybooks
