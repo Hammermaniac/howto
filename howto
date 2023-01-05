@@ -8,7 +8,7 @@
 #   ~/.common-configs/howto.git
 
 ## Books ##
-books=( "void" "term" )
+books=( "main" "void" "term" )
 
 
 # VARIABLES
@@ -35,37 +35,62 @@ displayhelp() {
     echo
     echo "  -h, --help       Display this help text."
     echo "  -n, --nocolor    Don't use colors with output."
-    echo "  -b, --books      Display all book names configured in the script."
+    echo "  -b, --books      Query the script to check configured books and if it can read the files."
     echo "  -o, --onlybook   Only search in the specified book."
     echo "  -a, --allbooks   Search all books simultaneously."
     echo
-    echo "Specifying a book name as an argument will search for the given string in the specified book."
-    echo "Example, assume book name is 'mybook':"
+    echo "      no option    When no option is specified, the script will run in 'freeform' mode, in this mode:"
+    echo "                   1. Each argument (string) will be checked whether it's configured as a 'book', then search for the string after the 'book name' in the specified book."
+    echo "                   2. If a book name is not specified, then the script will default back to the main book, called howto.main."
+    echo "                      e.g. | $ howto git mybook 'mount cifs' 'puppet file' |"
+    echo "                      In the above example:"
+    echo "                                         'git' uses:      howto.main"
+    echo "                                  'mount cifs' uses:      howto.mybook    ('mybook' switches the book to:  howto.mybook)"
+    echo "                                 'puppet file' uses:      howto.main"
+    echo
+    echo "Specifying a 'book name' as an argument will search for the given string in the specified book."
+    echo "The 'book name' has to be configured inside of the 'books' array at the top of this script."
+    echo "Example, assume 'book name' is 'mybook':"
     echo "howto mybook 'git config'"
     echo
-    echo "TIP: Specify a ':' as the search string to print all entries of any book."
+    echo "TIP: Specify a ':' as the search string to display all entries of any book."
     echo
 }
 
 print_color(){
+    # Color display, this is used by default.
+    # Display a colored line consisting of 'em dashes'.
     echo -e "\033[36m——————————————————————————————————\033[0m"
+
+    # Set $line to = Push $line with expressions > Substitute ': ' with a ':' and a colored line > Add newline characters (\n) around the line (em dashes).
     line=$(printf '%b\n' "$( echo -e "$line" | sed ''/": "/s//:`printf "\033[1;36m——————————————————————————————————\033[0m"`/'' | sed 's/——————————————————————————————————/\n——————————————————————————————————\n/' )")
+
+    # Display $line and print a newline.
     echo -e "$line\n"
 }
 
 print_no_color() {
+    # Non-colored display, used when -n or --nocolor is specified.
+    # Display a non-colored line consisting of 'em dashes'.
     echo '——————————————————————————————————'
+
+    # Set $line to = Push $line with expressions (which converts color codes like \033[36m...\033[0m to use ANSI escape codes) > ;
+    # Remove all color codes starting with ANSI escape codes > substitute ': ' for ':' and add newline characters (\n) around the line (em dashes).
     line=$(echo -e "$line" | sed 's/\x1B\[[0-9;]*[a-zA-Z]//g' | sed 's/: /\n——————————————————————————————————\n/')
+
+    # Display $line and print a newline.
     echo -e "$line\n"
 }
 
 readbook() {
+    # Do a 'for loop' where $n is the amount of arguments provided.
     for n do {
         # Escape if we run out of arguments.
         checkargs "$@"
+        # Debugging messages for context, used when --debug is specified.
         if [ "$debug_howto" == true ] ; then
             echo "   readbook():               Args: $@"
-            echo "   readbook():                Arg: $1"
+            echo "   readbook():      Search String: $1"
             echo "   readbook():       Book file is: $book"
             echo "   readbook()::option    onlybook: $onlybook"
             echo "   readbook()::option    allbooks: $allbooks"
@@ -73,26 +98,31 @@ readbook() {
             echo "   readbook()::option      legacy: $legacy"
             echo
         fi
-        # Find supplied argument (keyword) in book and display.
+        # Find supplied argument (keyword) in file and display.
+        # See usebook() and --onlybook for where $book gets set.
         grep -i "$1" "$book" | while read -r line
         do
             if [ "$debug_howto" == true ] ; then
-                echo "   readbook()::grep           Arg: $1"
+                echo "   readbook()::grep Search String: $1"
                 echo "   readbook()::grep  Book file is: $book"
             fi
+            # If the search string doesn't contain anything, break out, otherwise we print unnecessary output.
             if [ "$1" == '' ] ; then
                 break
             fi
             echo
-            if [ "$nocolor" == false ] ; then
-                print_color
-            else
+            # Test if -n or --nocolor was specified and don't use color if it wasn't.
+            if [ "$nocolor" == true ] ; then
                 print_no_color
+            else
+                # Display with color, used by default.
+                print_color
             fi
         done
         shift
-        # If no option was specified, run in freeform mode (i.e legacy).
+        # If no option was specified, run in 'freeform' mode (i.e. legacy).
         # This calls the usebook() function again to check whether the next argument is a book name.
+        # See 'howto --help' or displayhelp() for an explanation.
         if [ "$legacy" == true ] ; then
             checkargs "$@"
             usebook "$@"
@@ -103,19 +133,22 @@ readbook() {
 checkargs() {
     # When expected that we have run out of arguments after readbook() it means that we're done and should exit.
     if [ $# -eq 0 ] ; then
+        if [ "$debug_howto" == true ] ; then
+            echo "  checkargs():             Status: exiting."
+        fi
         echo
         exit 0
     fi
 }
 
 checknoargs() {
-    # If using --debug, then display argument count.
     if [ "$debug_howto" == true ] ; then
         echo "checknoargs():     Number of args: $#"
         echo "checknoargs():               Args: $@"
         echo
     fi
-     # Check if we do not have remaining arguments to use as search strings in readbook().
+     # Check if we have remaining arguments to use as search strings in readbook().
+     # If this check succeeds, it means that we did not expect to run out of arguments and something went wrong.
      if [ $# -eq 0 ] ; then
          echo -e "Error: No arguments supplied after book."
          displayhelp
@@ -124,23 +157,21 @@ checknoargs() {
 }
 
 usebook() {
-    # Test whether the argument is in the 'books' array, then sets the book file as the specified book,
+    # Test whether the argument is in the 'books' array, then sets the $book file as the specified book,
     # Otherwise, use the howto.main book file, /home/$USER/.common-configs/howto.main.
-    if [[ "${books[@]}" =~ "$1" ]] ; then
+    if [[ "${books[@]}" =~ "$1" ]] && [ -r "/home/$USER/.common-configs/howto.$1" ] ; then
         book="/home/$USER/.common-configs/howto.$1"
         shift
+    # If the specified string is a howto.<book> file, but is not present in the 'books' array, use the file, but warn the user.
     elif [ -r "/home/$USER/.common-configs/howto.$1" ] ; then
         echo "File '/home/$USER/.common-configs/howto.$1' exists, but $1 isn't configured in the 'books' array inside of this script."
-        echo "Please add it in order for the --allbooks feature to work."
+        echo "Please add it in order for script all features to work."
         book="/home/$USER/.common-configs/howto.$1"
         shift
     else
+        # Default back to 'howto.main' if the argument is not a book or an existing file.
+        # This ensures that 'freeform' (i.e. legacy) works as intended.
         book="/home/$USER/.common-configs/howto.main"
-        if [ "$onlybook" == true ] ; then
-            echo
-            echo "Specified book '$1' does not exist, using $book by default."
-            echo "If you've intended to use $book, there is no need to specify -o or --onlybook."
-        fi
      fi
      # If using --debug, then display arguments and 'book' (book file).
      if [ "$debug_howto" == true ] ; then
@@ -148,6 +179,7 @@ usebook() {
          echo "    usebook():               Args: $@"
          echo
      fi
+     # Check if we have run out of arguments, because we can't use readbook() if don't have any.
      checknoargs "$@"
      readbook "$@"
 }
@@ -158,7 +190,7 @@ displaybooks() {
     echo
 }
 
-# Exit if no arguments are supplied, nothing to do.
+# Exit if no arguments are supplied, nothing to do. Display help.
 if [ $# -eq 0 ] ; then
     displayhelp
     exit 1
@@ -180,23 +212,29 @@ do
                     nocolor=true
                     shift
                     ;;
-                -b|--books) # Display all book names.
+                -b|--books) # Query the script to check configured books and if it can read the files.
                     displaybooks
                     exit 0
                     ;;
                 -o|--onlybook) # Only search in specific book.
+                    # Check if the specified book is in the 'books' array and whether it is readable, if not, something is wrong.
                     if [[ "${books[@]}" =~ "$2" ]] ; then
                         if [ ! -r "/home/$USER/.common-configs/howto.$2" ] ; then
                             echo "File '/home/$USER/.common-configs/howto.$2' does not exist or isn't readable."
                             exit 1
                         fi
                         shift
+                        # Set the book file used to the specified book.
                         book="/home/$USER/.common-configs/howto.$1"
                         shift
+                        # Check if there are arguments after the specified book.
                         checknoargs "$@"
+                        # Use readbook() directly, don't pass it to usebook().
                         readbook "$@"
                     else
-                        echo "The book you've specified does not exist."
+                        # --onlybook will not work if the book or doesn't exist or isn't configured in the books array.
+                        echo
+                        echo "'$2' isn't configured in the 'books' array of this script."
                         echo
                         exit 1
                     fi
@@ -216,7 +254,7 @@ do
                     echo "Try '$0 --help' for more information."
                     exit 1
                     ;;
-                *)
+                *) # If this gets triggered, enable 'freeform' mode, see --help or displayhelp() for more info.
                     legacy=true
                     usebook "$@"
                     exit 0
