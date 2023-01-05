@@ -70,7 +70,7 @@ print_no_color() {
     echo '——————————————————————————————————'
 
     # Set $line to = Push $line with expressions (which converts color codes like \033[36m...\033[0m to use ANSI escape codes) > ;
-    # Remove all color codes starting with ANSI escape codes > substitute ': ' for ':' and add newline characters (\n) around the line (em dashes).
+    # Remove all color codes starting with ANSI escape codes > substitute ': ' with a ':', a line (em dashes) and add newline characters (\n) around the 'em dashes'.
     line=$(echo -e "$line" | sed 's/\x1B\[[0-9;]*[a-zA-Z]//g' | sed 's/: /\n——————————————————————————————————\n/')
 
     # Display $line and print a newline.
