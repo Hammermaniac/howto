@@ -21,11 +21,6 @@ nocolor=false
 legacy=false
 
 # FUNCTIONS
-howtomanual() {
-    echo 'Create a file in ~/.common-configs/ called howto.<bookname>
-    Declare book name in "books" array under the "## Books ##" section, e.g. books=( "mybook" "git" )'
-}
-
 displayhelp() {
     echo
     echo "Usage: howto [OPTION]... [STRING1] [STRING2]..."
@@ -196,6 +191,7 @@ if [ $# -eq 0 ] ; then
     exit 1
 fi
 
+# While we're not out of arguments.
 while [ ! "$#" -eq 0 ]
 do
         case "$1" in
