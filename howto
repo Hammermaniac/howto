@@ -58,7 +58,7 @@ print_color(){
     echo -e "\033[36m——————————————————————————————————\033[0m"
 
     # Set $line to = Push $line with expressions > Substitute ': ' with a ':' and a colored line > Add newline characters (\n) around the line (em dashes).
-    line=$(printf '%b\n' "$( echo -e "$line" | sed ''/": "/s//:`printf "\033[1;36m——————————————————————————————————\033[0m"`/'' | sed 's/——————————————————————————————————/\n——————————————————————————————————\n/' )")
+    line=$(printf '%b\n' "$( echo -e "$line" | sed ''/": "/s//:$(printf "\033[1;36m——————————————————————————————————\033[0m")/'' | sed 's/——————————————————————————————————/\n——————————————————————————————————\n/' )")
 
     # Display $line and print a newline.
     echo -e "$line\n"
@@ -84,7 +84,7 @@ readbook() {
         checkargs "$@"
         # Debugging messages for context, used when --debug is specified.
         if [ "$debug_howto" == true ] ; then
-            echo "   readbook():               Args: $@"
+            echo "   readbook():               Args: $*"
             echo "   readbook():      Search String: $1"
             echo "   readbook():       Book file is: $book"
             echo "   readbook():                  i: $i"
@@ -140,7 +140,7 @@ checkargs() {
 checknoargs() {
     if [ "$debug_howto" == true ] ; then
         echo "checknoargs():     Number of args: $#"
-        echo "checknoargs():               Args: $@"
+        echo "checknoargs():               Args: $*"
         echo
     fi
      # Check if we have remaining arguments to use as search strings in readbook().
@@ -172,7 +172,7 @@ usebook() {
      # If using --debug, then display arguments and 'book' (book file).
      if [ "$debug_howto" == true ] ; then
          echo "    usebook():       Book file is: $book"
-         echo "    usebook():               Args: $@"
+         echo "    usebook():               Args: $*"
          echo
      fi
      # Check if we have run out of arguments, because we can't use readbook() if don't have any.
@@ -180,9 +180,13 @@ usebook() {
      readbook "$@"
 }
 
+    # | tr '\n' ' ' | echo ${MYVAR##*.}
 displaybooks() {
-    readarray -t new_books <<< "$(find ~/.common-configs -name "howto.*")"  # | tr '\n' ' ' | echo ${MYVAR##*.}
+    readarray -t new_books <<< "$(find ~/.common-configs -name "howto.*")"  
     echo "${new_books[@]}"
+    for (( y = 0 ; y < "${#new_books[@]}" ; y++ )) do {
+        books[$y]="$( "${new_books[$y]}" | rev | awk -F "/" '{print $1}' | rev )"
+    } done
     echo
     echo "${books[@]}"
     echo
@@ -243,7 +247,7 @@ do
                     shift
                     # Set the book to the value of the 'books' array index.
                     # Loop until we've gone through the whole array.
-                    for (( i = 0 ; i < $numbooks ; i++))
+                    for (( i = 0 ; i < $numbooks ; i++ ))
                     do {
                         book="/home/$USER/.common-configs/howto.${books[$i]}"
                         readbook "$@"
