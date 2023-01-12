@@ -33,7 +33,7 @@ displayhelp() {
     echo "  -n, --nocolor    Don't use colors with output."
     echo "  -b, --books      Query the script to check configured books and if it can read the files."
     echo "  -o, --onlybook   Only search in the specified book."
-    echo "  -a, --allbooks   Search all books simultaneously."
+    echo "  -a, --allbooks   Search all books simultaneously, with this option you only need to provide the strings you want to search for."
     echo
     echo "      no option    When no option is specified, the script will run in 'freeform' mode, in this mode:"
     echo "                   1. Each argument (string) will be checked whether it's configured as a 'book', then search for the string after the 'book name' in the specified book."
