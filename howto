@@ -181,6 +181,8 @@ usebook() {
 }
 
 displaybooks() {
+    readarray -t new_books <<< "$(find ~/.common-configs -name "howto.*")"  # | tr '\n' ' ' | echo ${MYVAR##*.}
+    echo "${new_books[@]}"
     echo
     echo "${books[@]}"
     echo
