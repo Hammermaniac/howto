@@ -12,13 +12,14 @@ books=( "main" "void" "term" )
 
 
 # VARIABLES
-n=$#
-numbooks=${#books[@]}
-debug_howto=false
-onlybook=false
-allbooks=false
-nocolor=false
-legacy=false
+n=$#                       # The number of arguments.
+#i=0                        # To navigate the index of the 'books' array.
+numbooks=${#books[@]}      # The number of entries in the 'books' array.
+debug_howto=false          # Enable or disable debugging.
+onlybook=false             # Only use a specified book for searching.
+allbooks=false             # Search all books for the provided string.
+nocolor=false              # Print all output without any color.
+legacy=false               # Use a freeform mode, see --help {no option}.
 
 # FUNCTIONS
 displayhelp() {
@@ -87,6 +88,7 @@ readbook() {
             echo "   readbook():               Args: $@"
             echo "   readbook():      Search String: $1"
             echo "   readbook():       Book file is: $book"
+            echo "   readbook():                  i: $i"
             echo "   readbook()::option    onlybook: $onlybook"
             echo "   readbook()::option    allbooks: $allbooks"
             echo "   readbook()::option     nocolor: $nocolor"
@@ -237,9 +239,16 @@ do
                     exit 0
                     ;;
                 -a|--allbooks) # Search all books simultaneously for provided string.
-                    allbooks=true
+                    # allbooks=true
                     shift
-                    usebook "$@"
+                    # Set the book to the value of the 'books' array index.
+                    # Loop until we've gone through the whole array.
+                    for (( i = 0 ; i < $numbooks ; i++))
+                    do {
+                        book="/home/$USER/.common-configs/howto.${books[$i]}"
+                        #((i++))
+                        readbook "$@"
+                    } done
                     exit 0
                     ;;
                 --)
