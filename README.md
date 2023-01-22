@@ -7,6 +7,7 @@ The provided strings are the arguments that are passed when running the script.
 ### help
 ```
 $ howto --help
+
 Usage: howto [OPTION]... [STRING1] [STRING2]...
 Or:    howto [OPTION]... [BOOK_NAME] [STRING1]...
 
