@@ -187,7 +187,9 @@ displaybooks() {
         books_string=$( echo "${books_string} \"${books[$y]}\"" )
     } done
     sed -i "11s,$(sed '11!d' $0),books=( $( echo ${books_string} ) )," $0
+    echo
     echo "Books are now set to: books=( $( echo ${books_string} ) )"
+    echo
 }
 
 # Exit if no arguments are supplied, nothing to do. Display help.
