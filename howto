@@ -16,7 +16,6 @@ numbooks=${#books[@]}      # The number of entries in the 'books' array.
 script_path=$0             # The path to this script, when it's executed.
 debug_howto=false          # Enable or disable debugging.
 onlybook=false             # Only use a specified book for searching.
-allbooks=false             # Search all books for the provided string.
 legacy=false               # Use a freeform mode, see --help {no option}.
 # Set 'nocolor' to true to always output without color, without the need to use the -n, --nocolor option.
 nocolor=false
@@ -91,7 +90,6 @@ readbook() {
             echo "   readbook():       Book file is: $book"
             echo "   readbook():                  i: $i"
             echo "   readbook()::option    onlybook: $onlybook"
-            echo "   readbook()::option    allbooks: $allbooks"
             echo "   readbook()::option     nocolor: $nocolor"
             echo "   readbook()::option      legacy: $legacy"
             echo
