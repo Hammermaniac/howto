@@ -8,7 +8,7 @@
 #   ~/.common-configs/howto.git
 
 ## Books ##
-books=( "void" "main" "term" )
+books=( "main" "terminal" )
 
 # VARIABLES
 n=$#                       # The number of arguments.
