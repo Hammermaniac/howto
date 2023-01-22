@@ -8,12 +8,13 @@
 #   ~/.common-configs/howto.git
 
 ## Books ##
-books=( "main" "void" "term" )
+books=( "void" "main" "term" )
 
 
 # VARIABLES
 n=$#                       # The number of arguments.
 numbooks=${#books[@]}      # The number of entries in the 'books' array.
+script_path=$0             # The path to this script, when it's executed.
 debug_howto=false          # Enable or disable debugging.
 onlybook=false             # Only use a specified book for searching.
 allbooks=false             # Search all books for the provided string.
@@ -181,12 +182,22 @@ usebook() {
 }
 
 displaybooks() {
-    readarray -t new_books <<< "$(find ~/.common-configs -name "howto.*")"
+    # Check the ~/.commmon-configs directory for files and put them into an array.
+    readarray -t new_books <<< "$(find ~/.common-configs/ -name "howto.*")"
+    # Loop the amount of indexes that has been created with the above 'readarray'.
     for (( y = 0 ; y < "${#new_books[@]}" ; y++ )) do {
+        # Populate the 'books' array with the extensions of the files in ~/.common-configs, which
+        # is where the files are stored and accessed with this script.
         books[$y]=$( echo "${new_books[$y]}" | rev | awk -F "." '{print $1}' | rev )
         books_string=$( echo "${books_string} \"${books[$y]}\"" )
     } done
-    sed -i "11s,$(sed '11!d' $0),books=( $( echo ${books_string} ) )," $0
+    # If we are running from a link, set the script_path to the link's target, otherwise 
+    # we might run into permission issues when the link is stored in a root owned directory, e.g. /usr/local/bin
+    if [ -L $0 ] ; then
+        script_path=$(readlink $0)
+    fi
+    # Overwrite the line declaring the 'books' array with the newly found files.
+    sed -i "11s,$(sed '11!d' $0),books=( $( echo ${books_string} ) )," $script_path
     echo
     echo "Books are now set to: books=( $( echo ${books_string} ) )"
     echo
