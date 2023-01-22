@@ -34,7 +34,7 @@ Bash script for n loop: \033[33mfor\033[0m n \033[33mdo\n  shift\ndone\033[0m
 
 Bash script read from file: \033[33mwhile \033[36mIFS\033[0m= \033[33mread -r line\n  do\n	  echo \033[35m-e\033[0m "\033[36m$line\033[0m" \033[33m>>\033[0m ~/personal/howto/howto.bak\n  \033[33mdone\033[0m < ~/personal/howto/howto
 
-Perl replace text in file: \033[1;36mperl\033[0m \033[33m-i -p -e\033[0m '\033[35ms{Exec=/usr/bin/google-chrome-stable$}{Exec=/bin/bash -c "chrome"}\033[0m' /usr/share/google-chrome.desktop
+Perl replace text in file: \033[1;36mperl\033[0m \033[33m-i -p -e\033[0m '\033[35ms{Exec=/usr/bin/firefox$}{Exec=/bin/bash -c "/usr/bin/firefox"}\033[0m' /usr/share/applications/firefox.desktop
 
 Puppet class: \033[33mclass\033[0m \033[1;36mnode_management::chrome\033[0m {\n}
 
