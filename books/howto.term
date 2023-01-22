@@ -1,0 +1,41 @@
+Go to beginning of line: \033[1;36mCtrl\033[0m + A
+
+Go to end of line: \033[1;36mCtrl\033[0m + E
+
+Kill / Cancel whatever you are running or start a new prompt: \033[1;36mCtrl\033[0m + C
+
+Force / Stronger \033[1;36mCtrl \033[0m+ C: (Used when the terminal is not reponding.)\n  \033[1;36mCtrl \033[0m+ '\'
+
+Exit shell currently being used: \033[1;36mCtrl \033[0m+ D
+
+Clear Screen: \033[1;36mCtrl \033[0m+ L
+
+Clear line before cursor position: \033[1;36mCtrl \033[0m+ U
+
+Same as backspace: \033[1;36mCtrl \033[0m+ H
+
+Lets you search through previously used commands: \033[1;36mCtrl \033[0m+ R
+
+Suspend process into background: Press \033[1;36m(\033[0m\033[33mfg\033[0m\033[1;36m)\033[0m to restore it.\n  \033[1;36mCtrl \033[0m+ Z
+
+Delete word before the cursor: \033[1;36mCtrl \033[0m+ W
+
+Clear line after the cursor: \033[1;36mCtrl \033[0m+ K
+
+Paste or "Yank" deleted text back to the terminal: When you've cleared text with \033[1;36mCtrl \033[0m+ U, \033[1;36mCtrl \033[0m+ K etc.\n  \033[1;36mCtrl \033[0m+ Y
+
+Freeze the screen and stop any display on the screen: \033[1;36mCtrl \033[0m+ S
+
+Un-freeze the screen and let display continue: \033[1;36mCtrl \033[0m+ Q
+
+Swap last two characters before the cursor: \033[1;36mCtrl \033[0m+ T
+
+Swap last two words before the cursor: \033[1;36mEsc \033[0m+ T
+
+Paste previous command argument ($1) to prompt: \033[1;36mAlt \033[0m.
+
+Move cursor forward one word on the current line: \033[1;36mAlt \033[0m+ F
+
+Move cursor backward one word on the current line: \033[1;36mAlt \033[0m+ B
+
+Auto-complete files and folder names: \033[1;36mTab\033[0m
