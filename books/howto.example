@@ -1,0 +1,11 @@
+# Colors
+Cyan Bold   —   \033[1;36m
+Purple      —   \033[35m
+Yellow      —   \033[33m
+Blue        —   \033[34m
+Green Bold  —   \033[1;32m
+Green       —   \033[32m
+Red         —   \033[1;31m
+Text Clear  —   \033[0m
+
+This is an example: if [ $example == true ] ; then\n echo "This is an example."\nfi
