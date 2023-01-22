@@ -30,8 +30,9 @@ displayhelp() {
     echo "Options:"
     echo
     echo "  -h, --help       Display this help text."
+    echo "  -d, --debug      Enable debugging messages."
     echo "  -n, --nocolor    Don't use colors with output."
-    echo "  -b, --books      Query the script to check configured books and if it can read the files."
+    echo "  -b, --books      Query the script to check configured books and add them to the script."
     echo "  -o, --onlybook   Only search in the specified book."
     echo "  -a, --allbooks   Search all books simultaneously, with this option you only need to provide the strings you want to search for."
     echo
@@ -182,7 +183,7 @@ usebook() {
 
 displaybooks() {
     # Check the ~/.commmon-configs directory for files and put them into an array.
-    readarray -t new_books <<< "$(find ~/.common-configs/ -name "howto.*")"
+    readarray -t new_books <<< $(find ~/.common-configs/ -name "howto.*")
     # Loop the amount of indexes that has been created with the above 'readarray'.
     for (( y = 0 ; y < "${#new_books[@]}" ; y++ )) do {
         # Populate the 'books' array with the extensions of the files in ~/.common-configs, which

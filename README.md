@@ -14,8 +14,9 @@ Or:    howto [OPTION]... [BOOK_NAME] [STRING1]...
 Options:
 
   -h, --help       Display this help text.
+  -d, --debug      Enable debugging messages.
   -n, --nocolor    Don't use colors with output.
-  -b, --books      Query the script to check configured books and if it can read the files.
+  -b, --books      Query the script to check configured books and add them to the script.
   -o, --onlybook   Only search in the specified book.
   -a, --allbooks   Search all books simultaneously, with this option you only need to provide the strings you want to search for.
 
@@ -34,4 +35,5 @@ Example, assume 'book name' is 'mybook':
 howto mybook 'git config'
 
 TIP: Specify a ':' as the search string to display all entries of any book.
+
 ```
