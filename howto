@@ -197,7 +197,7 @@ displaybooks() {
         script_path=$(readlink $0)
     fi
     # Overwrite the line declaring the 'books' array with the newly found files.
-    sed -i "11s,$(sed '11!d' $0),books=( $( echo ${books_string} ) )," $script_path
+    sed "$(grep -n "^books=(" $script_path | awk -F ":" '{print $1}')s,$(sed '11!d' $0),books=( $( echo ${books_string} ) )," $script_path
     echo
     echo "Books are now set to: books=( $( echo ${books_string} ) )"
     echo
