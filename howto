@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Declare a book name in the 'books' array under "## Books ##", e.g. books=( "mybook" "git" )
-# Then create a file in ~/.common-configs/ using the naming convention: howto.mybook
+# Then create a file in $script_dir/books/ using the naming convention: howto.mybook
 #
 # So the above example points to these files:
-#   ~/.common-configs/howto.mybook
-#   ~/.common-configs/howto.git
+#   $script_dir/books/howto.mybook
+#   $script_dir/books/howto.git
 
 ## Books ##
 books=( "main" "terminal" )
@@ -163,7 +163,7 @@ checknoargs() {
 
 usebook() {
     # Test whether the argument is in the 'books' array, then sets the $book file as the specified book,
-    # Otherwise, use the howto.main book file, $script_dir/howto.main.
+    # Otherwise, use the howto.main book file, $script_dir/books/howto.main.
     if [[ "${books[@]}" =~ "$1" ]] && [ -r "$script_dir/books/howto.$1" ] ; then
         book="$script_dir/books/howto.$1"
         shift
@@ -190,11 +190,11 @@ usebook() {
 }
 
 displaybooks() {
-    # Check the ~/.commmon-configs directory for files and put them into an array.
+    # Check the $script_dir/books/ directory for files and put them into an array.
     readarray -t new_books <<< $(find $(echo "$script_dir/books/") -name "howto.*")
     # Loop the amount of indexes that has been created with the above 'readarray'.
     for (( y = 0 ; y < "${#new_books[@]}" ; y++ )) do {
-        # Populate the 'books' array with the extensions of the files in ~/.common-configs, which
+        # Populate the 'books' array with the extensions of the files in $script_dir/books/, which
         # is where the files are stored and accessed with this script.
         books[$y]=$( echo "${new_books[$y]}" | rev | awk -F "." '{print $1}' | rev )
         if [ $nocolor == true ] ; then
@@ -286,7 +286,7 @@ do
                     # Loop until we've gone through the whole array.
                     for (( i = 0 ; i < $numbooks ; i++ ))
                     do {
-                        book="$script_dir/howto.${books[$i]}"
+                        book="$script_dir/books/howto.${books[$i]}"
                         readbook "$@"
                     } done
                     exit 0
