@@ -180,16 +180,14 @@ usebook() {
      readbook "$@"
 }
 
-    # | tr '\n' ' ' | echo ${MYVAR##*.}
 displaybooks() {
-    readarray -t new_books <<< "$(find ~/.common-configs -name "howto.*")"  
-    echo "${new_books[@]}"
+    readarray -t new_books <<< "$(find ~/.common-configs -name "howto.*")"
     for (( y = 0 ; y < "${#new_books[@]}" ; y++ )) do {
-        books[$y]="$( "${new_books[$y]}" | rev | awk -F "/" '{print $1}' | rev )"
+        books[$y]=$( echo "${new_books[$y]}" | rev | awk -F "." '{print $1}' | rev )
+        books_string=$( echo "${books_string} \"${books[$y]}\"" )
     } done
-    echo
-    echo "${books[@]}"
-    echo
+    sed -i "11s,$(sed '11!d' $0),books=( $( echo ${books_string} ) )," $0
+    echo "Books are now set to: books=( $( echo ${books_string} ) )"
 }
 
 # Exit if no arguments are supplied, nothing to do. Display help.
