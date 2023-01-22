@@ -4,7 +4,7 @@ The original intent of this script was to have a quick way of displaying example
 howto is a bash script that utilizes `grep` to search for provided strings and displays it in a readable layout.
 The provided strings are the arguments that are passed when running the script.
 
-### --help
+### `--help`
 ```
 Usage: howto [OPTION]... [STRING1] [STRING2]...
 Or:    howto [OPTION]... [BOOK_NAME] [STRING1]...
