@@ -84,7 +84,7 @@ readbook() {
         # Escape if we run out of arguments.
         checkargs "$@"
         # Debugging messages for context, used when --debug is specified.
-        if [ "$debug_howto" == true ] ; then
+        if [ $debug_howto == true ] ; then
             echo "   readbook():               Args: $*"
             echo "   readbook():      Search String: $1"
             echo "   readbook():       Book file is: $book"
@@ -99,7 +99,7 @@ readbook() {
         # See usebook() and --onlybook for where $book gets set.
         grep -i "$1" "$book" | while read -r line
         do
-            if [ "$debug_howto" == true ] ; then
+            if [ $debug_howto == true ] ; then
                 echo "   readbook()::grep Search String: $1"
                 echo "   readbook()::grep  Book file is: $book"
             fi
@@ -130,7 +130,7 @@ readbook() {
 checkargs() {
     # When expected that we have run out of arguments after readbook() it means that we're done and should exit.
     if [ $# -eq 0 ] ; then
-        if [ "$debug_howto" == true ] ; then
+        if [ $debug_howto == true ] ; then
             echo "  checkargs():             Status: exiting."
         fi
         echo
@@ -139,7 +139,7 @@ checkargs() {
 }
 
 checknoargs() {
-    if [ "$debug_howto" == true ] ; then
+    if [ $debug_howto == true ] ; then
         echo "checknoargs():     Number of args: $#"
         echo "checknoargs():               Args: $*"
         echo
@@ -171,7 +171,7 @@ usebook() {
         book="/home/$USER/.common-configs/howto.main"
      fi
      # If using --debug, then display arguments and 'book' (book file).
-     if [ "$debug_howto" == true ] ; then
+     if [ $debug_howto == true ] ; then
          echo "    usebook():       Book file is: $book"
          echo "    usebook():               Args: $*"
          echo
@@ -189,17 +189,40 @@ displaybooks() {
         # Populate the 'books' array with the extensions of the files in ~/.common-configs, which
         # is where the files are stored and accessed with this script.
         books[$y]=$( echo "${new_books[$y]}" | rev | awk -F "." '{print $1}' | rev )
-        books_string=$( echo "${books_string} \"${books[$y]}\"" )
+        if [ $nocolor == true ] ; then
+            books_string=$( echo "${books_string} \"${books[$y]}\"" )
+        else
+            color_string=$( echo -e "${color_string} \"\\033[35m${books[$y]}\\033[0m\"" )
+            books_string=$( echo "${books_string} \"${books[$y]}\"" )
+        fi
+        # If using --debug, then display debug messages from inside the for loop.
+        if [ $debug_howto == true ] ; then
+            echo "displaybooks()::forloop     new_books: ${new_books[@]}"
+            echo "displaybooks()::forloop    # of books: ${#books[@]}"
+            echo "displaybooks()::forloop         books: ${books[@]}"
+            echo "displaybooks()::forloop  books_string: $books_string"
+            echo "displaybooks()::forloop  color_string: $color_string"
+        fi
     } done
-    # If we are running from a link, set the script_path to the link's target, otherwise 
+    # If we are running from a link, set script_path to the link's target, otherwise 
     # we might run into permission issues when the link is stored in a root owned directory, e.g. /usr/local/bin
     if [ -L $0 ] ; then
         script_path=$(readlink $0)
     fi
+    # If using --debug, then display debug messages.
+    if [ $debug_howto == true ] ; then
+         echo "displaybooks():                     y: $y"
+         echo "displaybooks():        # of new_books: ${#new_books[@]}"
+         echo "displaybooks():           script_path: $script_path"
+    fi
     # Overwrite the line declaring the 'books' array with the newly found files.
-    sed -i "$(grep -n "^books=(" $script_path | awk -F ":" '{print $1}')s,$(sed '11!d' $0),books=( $( echo ${books_string} ) )," $script_path
+    sed -i "$(grep -n "^books=(" $script_path | awk -F ":" '{print $1}')s,$(sed '11!d' $0),books=( $( echo $books_string ) )," $script_path
     echo
-    echo "Books are now set to: books=( $( echo ${books_string} ) )"
+    if [ $nocolor == true ] ; then
+        echo "Books are now set to: books=( $( echo $books_string ) )"
+    else
+        echo -e "Books are now set to: \033[1;36mbooks\033[0m=\033[36m(\033[0m $( echo -e $color_string ) \033[36m)\033[0m"
+    fi
     echo
 }
 
@@ -227,7 +250,7 @@ do
                     shift
                     ;;
                 -b|--books) # Query the script to check configured books and if it can read the files.
-                    displaybooks
+                    displaybooks "$@"
                     exit 0
                     ;;
                 -o|--onlybook) # Only search in specific book.
