@@ -13,7 +13,6 @@ books=( "main" "terminal" "example" )
 # VARIABLES
 n=$#                       # The number of arguments.
 numbooks=${#books[@]}      # The number of entries in the 'books' array.
-#script_path=$0             # The path to this script, when it's executed.
 debug_howto=false          # Enable or disable debugging.
 onlybook=false             # Only use a specified book for searching.
 legacy=false               # Use a freeform mode, see --help {no option}.
