@@ -10,7 +10,6 @@
 ## Books ##
 books=( "void" "main" "term" )
 
-
 # VARIABLES
 n=$#                       # The number of arguments.
 numbooks=${#books[@]}      # The number of entries in the 'books' array.
